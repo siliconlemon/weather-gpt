@@ -49,6 +49,7 @@
     themeToggleBtns().forEach((btn) => {
       btn.setAttribute("aria-pressed", light ? "true" : "false");
       btn.setAttribute("aria-label", ariaLabel);
+      btn.setAttribute("title", ariaLabel);
       const labelSpan = btn.querySelector("[data-theme-toggle-label]");
       if (labelSpan) {
         labelSpan.textContent = strings[stateKey] || stateFallback;
@@ -159,6 +160,10 @@
     document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
       const k = el.getAttribute("data-i18n-aria-label");
       if (strings[k]) el.setAttribute("aria-label", strings[k]);
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const k = el.getAttribute("data-i18n-title");
+      if (strings[k]) el.setAttribute("title", strings[k]);
     });
     document.title = strings.title || document.title;
     refreshThemeToggleA11y();

@@ -15,6 +15,7 @@
   "language": "Change language",
   "placeholder": "Type a message…",
   "send": "Send",
+  "clearChat": "Clear conversation",
   "errorGeneric": "Something went wrong.",
   "errorNetwork": "Could not reach the server."
 }

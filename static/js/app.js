@@ -6,6 +6,7 @@
   const STORAGE_KEY = "weather-gpt-locale";
   const STORAGE_KEY_THEME = "weather-gpt-theme";
   const messagesEl = document.getElementById("messages");
+  const chatClearBtn = document.getElementById("chat-clear");
   const form = document.getElementById("composer");
   const input = document.getElementById("input");
   const sendBtn = document.getElementById("send");
@@ -21,6 +22,24 @@
 
   let strings = {};
   const history = [];
+  let conversationEpoch = 0;
+
+  function syncChatClearButton() {
+    if (!chatClearBtn || !messagesEl) return;
+    const bubbles = messagesEl.querySelectorAll(".msg:not(.typing-wrap)");
+    const hasConversation = bubbles.length >= 2;
+    chatClearBtn.hidden = !hasConversation;
+  }
+
+  function clearConversation() {
+    conversationEpoch += 1;
+    history.length = 0;
+    messagesEl.innerHTML = "";
+    setTyping(false);
+    syncChatClearButton();
+    lucideRefresh();
+    input.focus();
+  }
 
   function getLocale() {
     const v = localStorage.getItem(STORAGE_KEY) || "cs";
@@ -192,12 +211,16 @@
     messagesEl.appendChild(div);
     lucideRefresh();
     messagesEl.scrollTop = messagesEl.scrollHeight;
+    syncChatClearButton();
   }
 
   function setTyping(on) {
     const id = "typing-indicator";
     document.getElementById(id)?.remove();
-    if (!on) return;
+    if (!on) {
+      syncChatClearButton();
+      return;
+    }
     const wrap = document.createElement("div");
     wrap.id = id;
     wrap.className = "msg msg-assistant typing-wrap";
@@ -288,6 +311,8 @@
     lucideRefresh();
   });
 
+  chatClearBtn?.addEventListener("click", () => clearConversation());
+
   input.addEventListener("input", autosize);
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -310,6 +335,7 @@
     history.push({ role: "user", content: text });
     sendBtn.disabled = true;
     setTyping(true);
+    const epoch = conversationEpoch;
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -319,7 +345,9 @@
         },
         body: JSON.stringify({ messages: history, locale: loc }),
       });
+      if (epoch !== conversationEpoch) return;
       const data = await res.json().catch(() => ({}));
+      if (epoch !== conversationEpoch) return;
       setTyping(false);
       if (!res.ok) {
         addBubble("assistant", data.error || strings.errorGeneric || "Error", "msg-error");
@@ -329,6 +357,7 @@
       history.push({ role: "assistant", content: reply });
       addBubble("assistant", reply);
     } catch {
+      if (epoch !== conversationEpoch) return;
       setTyping(false);
       addBubble("assistant", strings.errorNetwork || "Network error", "msg-error");
     } finally {
@@ -342,7 +371,14 @@
 
   const initial = getLocale();
   setLocale(initial);
+  syncChatClearButton();
   loadI18n(initial)
-    .then(() => lucideRefresh())
-    .catch(() => lucideRefresh());
+    .then(() => {
+      lucideRefresh();
+      syncChatClearButton();
+    })
+    .catch(() => {
+      lucideRefresh();
+      syncChatClearButton();
+    });
 })();

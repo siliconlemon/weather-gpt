@@ -114,7 +114,21 @@
       </div>
     </header>
     <section class="chat" aria-label="Chat">
-      <div id="messages" class="messages" role="log" aria-live="polite"></div>
+      <div class="chat__viewport">
+        <button
+          type="button"
+          id="chat-clear"
+          class="chat-clear"
+          hidden
+          data-i18n-aria-label="clearChat"
+          data-i18n-title="clearChat"
+          aria-label="Clear conversation"
+          title="Clear conversation"
+        >
+          <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+        </button>
+        <div id="messages" class="messages" role="log" aria-live="polite"></div>
+      </div>
       <form id="composer" class="composer" autocomplete="off" novalidate>
         <textarea id="input" rows="1" data-i18n-placeholder="placeholder" placeholder="Napiš zprávu…"></textarea>
         <button type="submit" id="send" class="send" data-i18n-aria-label="send">

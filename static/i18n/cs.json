@@ -15,6 +15,7 @@
   "language": "Změnit jazyk",
   "placeholder": "Napište zprávu…",
   "send": "Odeslat",
+  "clearChat": "Smazat konverzaci",
   "errorGeneric": "Něco se pokazilo.",
   "errorNetwork": "Nelze se spojit se serverem."
 }

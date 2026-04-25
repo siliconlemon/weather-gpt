@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import httpx
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, url_for
 
 from weather_gpt.config import Settings
 from weather_gpt.graph.chat import run_weather_chat
@@ -87,10 +87,10 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/")
     def index() -> str:
         """Serves the single-page chat UI."""
-        return render_template(
-            "index.html",
-            ui_background_url=s.ui_background_url or "",
-        )
+        bg = (s.ui_background_url or "").strip()
+        if not bg:
+            bg = url_for("static", filename="images/site-bg.jpg")
+        return render_template("index.html", ui_background_url=bg)
 
     @app.get("/api/health")
     def health() -> Any:

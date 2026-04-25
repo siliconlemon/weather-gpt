@@ -4,24 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title data-i18n="title">Počasí — chat</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
-  {% if ui_background_url %}
   <style>
     .app-body--bg {
       --bg-image: url({{ ui_background_url | tojson }});
     }
   </style>
-  {% endif %}
 </head>
-<body class="app-body{% if ui_background_url %} app-body--bg{% endif %}">
+<body class="app-body app-body--bg">
   <div class="backdrop"></div>
   <main class="shell">
     <header class="top">
       <div class="brand">
-        <span class="logo" aria-hidden="true"></span>
+        <span class="logo-wrap" aria-hidden="true">
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/favicon.svg') }}"
+            width="32"
+            height="32"
+            alt=""
+          />
+        </span>
         <div>
           <h1 class="title" data-i18n="heading">Počasí</h1>
           <p class="tagline" data-i18n="tagline">Zeptej se na počasí, předpověď nebo kvalitu vzduchu.</p>

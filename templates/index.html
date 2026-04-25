@@ -7,10 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}" />
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any" />
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='build/app.css') }}" />
   <style>
     .app-body--bg {
       --bg-image: url({{ ui_background_url | tojson }});
@@ -37,23 +34,39 @@
         </div>
       </div>
       <div class="toolbar">
-        <label class="locale">
-          <span data-i18n="language">Jazyk</span>
-          <select id="locale" aria-label="Language">
-            <option value="cs">Čeština</option>
-            <option value="en">English</option>
-          </select>
-        </label>
+        <div class="locale">
+          <span class="locale__icon" aria-hidden="true"><i data-lucide="languages"></i></span>
+          <div class="locale-dropdown">
+            <button
+              type="button"
+              id="locale-trigger"
+              class="locale-trigger"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="locale-menu"
+              data-i18n-aria-label="language"
+            >
+              <span id="locale-current" class="locale-trigger__label">Čeština</span>
+              <span class="locale-trigger__caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <ul id="locale-menu" class="locale-menu" role="listbox" hidden>
+              <li class="locale-menu__item" role="option" data-value="cs" tabindex="-1">Čeština</li>
+              <li class="locale-menu__item" role="option" data-value="en" tabindex="-1">English</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
     <section class="chat" aria-label="Chat">
       <div id="messages" class="messages" role="log" aria-live="polite"></div>
-      <form id="composer" class="composer" autocomplete="off">
-        <textarea id="input" rows="1" data-i18n-placeholder="placeholder" placeholder="Napiš zprávu…" required></textarea>
-        <button type="submit" id="send" class="send" data-i18n="send">Odeslat</button>
+      <form id="composer" class="composer" autocomplete="off" novalidate>
+        <textarea id="input" rows="1" data-i18n-placeholder="placeholder" placeholder="Napiš zprávu…"></textarea>
+        <button type="submit" id="send" class="send" data-i18n-aria-label="send">
+          <i data-lucide="send" aria-hidden="true"></i>
+        </button>
       </form>
     </section>
   </main>
-  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='build/app.js') }}" defer></script>
 </body>
 </html>

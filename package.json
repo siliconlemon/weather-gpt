@@ -1,0 +1,17 @@
+{
+  "name": "weather-gpt-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/frontend/main.js --bundle --format=iife --legal-comments=none --outfile=static/build/app.js --asset-names=assets/[name]-[hash] --public-path=./ --loader:.woff2=file --loader:.woff=file",
+    "dev": "esbuild src/frontend/main.js --bundle --format=iife --legal-comments=none --outfile=static/build/app.js --asset-names=assets/[name]-[hash] --public-path=./ --loader:.woff2=file --loader:.woff=file --watch"
+  },
+  "dependencies": {
+    "@fontsource/dm-sans": "^5.2.5",
+    "@fontsource/space-grotesk": "^5.2.5",
+    "lucide": "^0.469.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

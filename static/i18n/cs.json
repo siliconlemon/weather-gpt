@@ -1,9 +1,9 @@
 {
-  "title": "Weather GPT",
+  "title": "Weather GPT | Zeptejte se na počasí, předpověď nebo kvalitu vzduchu.",
   "heading": "Weather GPT",
-  "tagline": "Zeptej se na počasí, předpověď nebo kvalitu vzduchu.",
+  "tagline": "Zeptejte se na počasí, předpověď nebo kvalitu vzduchu.",
   "language": "Jazyk",
-  "placeholder": "Napiš zprávu…",
+  "placeholder": "Napište zprávu…",
   "send": "Odeslat",
   "errorGeneric": "Něco se pokazilo.",
   "errorNetwork": "Nelze se spojit se serverem."

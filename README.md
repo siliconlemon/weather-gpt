@@ -16,10 +16,13 @@ cp env.example .env
 # Edit .env: set API_KEY, choose LLM_PROVIDER, and provider keys as needed.
 
 uv sync --group dev
+npm install && npm run build
 uv run flask --app weather_gpt.app:create_app run --debug --port 8000
 ```
 
 Open http://127.0.0.1:8000 .
+
+Fonts, Lucide icons, and the chat script are bundled from `src/frontend/main.js` into `static/build/` with **esbuild** (Node is only for that build step; Flask does not use Node at runtime). After changing `src/frontend/main.js` or `static/css/app.css`, run `npm run build` again, or `npm run dev` to rebuild on save.
 
 ## Tests
 
@@ -45,5 +48,6 @@ Zen exposes an OpenAI-compatible Chat Completions API. Set `OPENCODE_ZEN_BASE_UR
 ## Project layout
 
 - `src/weather_gpt/` — Flask app, LangGraph chat, LLM adapters, OpenWeather service and tools
-- `templates/`, `static/` — UI, i18n JSON (`static/i18n/cs.json`, `en.json`)
+- `templates/`, `static/` — UI, i18n JSON (`static/i18n/cs.json`, `en.json`), built assets under `static/build/` (from `npm run build`)
+- `src/frontend/main.js` — entry for esbuild (Fontsource + Lucide + app logic)
 - `tests/` — pytest suite

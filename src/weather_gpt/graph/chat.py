@@ -15,7 +15,7 @@ def _system_prompt(locale: str) -> str:
     """Builds the system prompt including response language."""
     lang = "Czech" if locale == "cs" else "English"
     return (
-        "You are a helpful weather assistant. Use the provided tools to fetch "
+        "You are a weather assistant. Use the provided tools to fetch "
         "OpenWeatherMap data when the user asks about weather, forecasts, locations, "
         "or air quality. Summarize tool output clearly for the user.\n"
         f"Always respond in {lang} (locale {locale})."

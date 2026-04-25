@@ -17,5 +17,20 @@
   "send": "Odeslat",
   "clearChat": "Smazat konverzaci",
   "errorGeneric": "Něco se pokazilo.",
-  "errorNetwork": "Nelze se spojit se serverem."
+  "errorNetwork": "Nelze se spojit se serverem.",
+  "suggestionsGroup": "Příklady otázek, které můžete položit",
+  "suggestions": [
+    "Kdy je dnes v Reykjavíku východ a západ slunce?",
+    "V kolik je dnes západ slunce v Sydney?",
+    "V kolik bude zítra východ slunce v Tokiu?",
+    "Jaká je předpověď na víkend v Kapském Městě?",
+    "Bude zítra v Bombaji pršet?",
+    "Jaká je dnes kvalita ovzduší v Ciudad de México?",
+    "Jaké je teď počasí v Singapuru?",
+    "Hodinová předpověď pro Limu dnes večer",
+    "Co v předpovědi znamená „pocitově“?",
+    "Jaký je UV index v Nairobi — mám si mazat opalovací krém?",
+    "Porovnej dnešní počasí v New Yorku a Londýně",
+    "Kdy dnes zapadne slunce v Ushuaie?"
+  ]
 }

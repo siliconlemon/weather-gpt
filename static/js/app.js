@@ -8,6 +8,7 @@
   const messagesEl = document.getElementById("messages");
   const chatClearBtn = document.getElementById("chat-clear");
   const form = document.getElementById("composer");
+  const suggestionsEl = document.getElementById("suggestions");
   const input = document.getElementById("input");
   const sendBtn = document.getElementById("send");
   const localeTrigger = document.getElementById("locale-trigger");
@@ -37,8 +38,52 @@
     messagesEl.innerHTML = "";
     setTyping(false);
     syncChatClearButton();
+    syncSuggestionsStrip();
     lucideRefresh();
     input.focus();
+  }
+
+  function chatHasBubbles() {
+    return !!(messagesEl && messagesEl.querySelector(".msg:not(.typing-wrap)"));
+  }
+
+  function pickRandomSubset(items, count) {
+    const list = items.slice();
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = list[i];
+      list[i] = list[j];
+      list[j] = t;
+    }
+    return list.slice(0, Math.min(count, list.length));
+  }
+
+  function refreshStarterSuggestions() {
+    if (!suggestionsEl) return;
+    const all = strings.suggestions;
+    if (!Array.isArray(all) || all.length === 0) {
+      suggestionsEl.replaceChildren();
+      return;
+    }
+    suggestionsEl.replaceChildren();
+    for (const text of pickRandomSubset(all, 3)) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "suggestion-chip";
+      btn.setAttribute("data-text", text);
+      btn.textContent = text;
+      suggestionsEl.appendChild(btn);
+    }
+  }
+
+  function syncSuggestionsStrip() {
+    if (!suggestionsEl) return;
+    if (chatHasBubbles()) {
+      suggestionsEl.hidden = true;
+      return;
+    }
+    refreshStarterSuggestions();
+    suggestionsEl.hidden = suggestionsEl.childElementCount === 0;
   }
 
   function getLocale() {
@@ -186,6 +231,7 @@
     });
     document.title = strings.title || document.title;
     refreshThemeToggleA11y();
+    syncSuggestionsStrip();
   }
 
   function messageIconName(role, extraClass) {
@@ -212,6 +258,7 @@
     lucideRefresh();
     messagesEl.scrollTop = messagesEl.scrollHeight;
     syncChatClearButton();
+    syncSuggestionsStrip();
   }
 
   function setTyping(on) {
@@ -313,6 +360,16 @@
 
   chatClearBtn?.addEventListener("click", () => clearConversation());
 
+  suggestionsEl?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".suggestion-chip");
+    if (!btn || !suggestionsEl.contains(btn)) return;
+    const text = (btn.getAttribute("data-text") || "").trim();
+    if (!text) return;
+    input.value = text;
+    autosize();
+    form.requestSubmit();
+  });
+
   input.addEventListener("input", autosize);
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -372,6 +429,7 @@
   const initial = getLocale();
   setLocale(initial);
   syncChatClearButton();
+  syncSuggestionsStrip();
   loadI18n(initial)
     .then(() => {
       lucideRefresh();
@@ -380,5 +438,6 @@
     .catch(() => {
       lucideRefresh();
       syncChatClearButton();
+      syncSuggestionsStrip();
     });
 })();

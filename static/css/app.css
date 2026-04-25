@@ -64,6 +64,22 @@
   background: rgba(255, 255, 255, 0.9);
 }
 
+[data-theme="light"] .suggestion-chip {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+}
+
+[data-theme="light"] .suggestion-chip:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(29, 111, 216, 0.28);
+  box-shadow: none;
+}
+
+[data-theme="light"] .suggestion-chip:focus-visible {
+  box-shadow: 0 0 0 3px rgba(29, 111, 216, 0.18);
+}
+
 [data-theme="light"] .chat-clear {
   color: rgba(22, 72, 150, 0.92);
   background: rgba(255, 255, 255, 0.72);
@@ -816,12 +832,68 @@ body.nav-menu-open {
   align-items: center;
 }
 
+.suggestions {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: -0.85rem;
+  padding: 0 0.75rem 0.4rem;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+}
+
+.suggestions .suggestion-chip {
+  pointer-events: auto;
+}
+
 .composer {
   display: flex;
   gap: 0.6rem;
+  align-items: flex-end;
   padding: 0.75rem;
   border-top: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.2);
+}
+
+.suggestions[hidden] {
+  display: none !important;
+}
+
+.suggestion-chip {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--text);
+  overflow-wrap: break-word;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.suggestion-chip:hover {
+  border-color: rgba(94, 176, 255, 0.35);
+  background: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.suggestion-chip:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(94, 176, 255, 0.2);
 }
 
 .composer textarea {
@@ -976,5 +1048,10 @@ body.nav-menu-open {
     padding-left: max(0.75rem, env(safe-area-inset-left));
     padding-right: max(0.75rem, env(safe-area-inset-right));
     padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .suggestions {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
   }
 }

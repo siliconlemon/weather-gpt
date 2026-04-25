@@ -17,5 +17,20 @@
   "send": "Send",
   "clearChat": "Clear conversation",
   "errorGeneric": "Something went wrong.",
-  "errorNetwork": "Could not reach the server."
+  "errorNetwork": "Could not reach the server.",
+  "suggestionsGroup": "Example questions you can ask",
+  "suggestions": [
+    "When are sunrise and sunset today in Reykjavik?",
+    "What time does the sun set in Sydney today?",
+    "What time is sunrise in Tokyo tomorrow?",
+    "Weekend forecast for Cape Town",
+    "Will it rain in Mumbai tomorrow?",
+    "How is the air quality in Mexico City today?",
+    "What's the weather in Singapore right now?",
+    "Hourly forecast for Lima this evening",
+    "What does 'feels like' mean in the forecast?",
+    "UV index in Nairobi — should I use sunscreen?",
+    "Compare today's weather in New York and London",
+    "When does the sun set in Ushuaia today?"
+  ]
 }

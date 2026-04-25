@@ -806,9 +806,8 @@ body.nav-menu-open {
   color: var(--muted);
 }
 
-/* Nudge icons down slightly vs. bubble top (typing row stays vertically centered). */
 .msg:not(.typing-wrap) .msg-icon {
-  margin-top: 0.4rem;
+  margin-top: 0.7rem;
 }
 
 .msg-icon svg {
@@ -936,6 +935,7 @@ body.nav-menu-open {
 .send svg {
   width: 20px;
   height: 20px;
+  transform: translate(-1px, 1px);
 }
 
 .send:hover:not(:disabled) {

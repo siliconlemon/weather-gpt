@@ -1,0 +1,10 @@
+{
+  "title": "Počasí — chat",
+  "heading": "Počasí",
+  "tagline": "Zeptej se na počasí, předpověď nebo kvalitu vzduchu.",
+  "language": "Jazyk",
+  "placeholder": "Napiš zprávu…",
+  "send": "Odeslat",
+  "errorGeneric": "Něco se pokazilo.",
+  "errorNetwork": "Nelze se spojit se serverem."
+}

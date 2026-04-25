@@ -1,0 +1,10 @@
+{
+  "title": "Weather — chat",
+  "heading": "Weather",
+  "tagline": "Ask about weather, forecasts, or air quality.",
+  "language": "Language",
+  "placeholder": "Type a message…",
+  "send": "Send",
+  "errorGeneric": "Something went wrong.",
+  "errorNetwork": "Could not reach the server."
+}

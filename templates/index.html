@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="title">Počasí — chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+</head>
+<body class="app-body" style="{% if ui_background_url %}--bg-image: url('{{ ui_background_url | e }}');{% endif %}">
+  <div class="backdrop"></div>
+  <main class="shell">
+    <header class="top">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <h1 class="title" data-i18n="heading">Počasí</h1>
+          <p class="tagline" data-i18n="tagline">Zeptej se na počasí, předpověď nebo kvalitu vzduchu.</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <label class="locale">
+          <span data-i18n="language">Jazyk</span>
+          <select id="locale" aria-label="Language">
+            <option value="cs">Čeština</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+      </div>
+    </header>
+    <section class="chat" aria-label="Chat">
+      <div id="messages" class="messages" role="log" aria-live="polite"></div>
+      <form id="composer" class="composer" autocomplete="off">
+        <textarea id="input" rows="1" data-i18n-placeholder="placeholder" placeholder="Napiš zprávu…" required></textarea>
+        <button type="submit" id="send" class="send" data-i18n="send">Odeslat</button>
+      </form>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body>
+</html>

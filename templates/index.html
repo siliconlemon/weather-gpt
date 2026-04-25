@@ -9,6 +9,15 @@
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("weather-gpt-theme") === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      } catch (_) {}
+    })();
+  </script>
   <style>
     .app-body--bg {
       --bg-image: url({{ ui_background_url | tojson }});
@@ -31,30 +40,75 @@
         </span>
         <div>
           <h1 class="title" data-i18n="heading">Počasí</h1>
-          <p class="tagline" data-i18n="tagline">Zeptej se na počasí, předpověď nebo kvalitu vzduchu.</p>
+          <p class="tagline tagline--full" data-i18n="tagline">Zeptejte se na počasí, předpověď nebo kvalitu vzduchu.</p>
+          <p class="tagline tagline--short" data-i18n="taglineShort">Zeptejte se na počasí</p>
         </div>
       </div>
-      <div class="toolbar">
-        <div class="locale">
-          <span class="locale__icon" aria-hidden="true"><i data-lucide="languages"></i></span>
-          <div class="locale-dropdown">
-            <button
-              type="button"
-              id="locale-trigger"
-              class="locale-trigger"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="locale-menu"
-              data-i18n-aria-label="language"
-            >
-              <span id="locale-current" class="locale-trigger__label">Čeština</span>
-              <span class="locale-trigger__caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
-            </button>
-            <ul id="locale-menu" class="locale-menu" role="listbox" hidden>
-              <li class="locale-menu__item" role="option" data-value="cs" tabindex="-1">Čeština</li>
-              <li class="locale-menu__item" role="option" data-value="en" tabindex="-1">English</li>
-            </ul>
+      <div class="top-actions">
+        <button
+          type="button"
+          id="nav-menu-toggle"
+          class="nav-menu-toggle"
+          aria-expanded="false"
+          aria-controls="nav-menu-drawer"
+          data-i18n-aria-label="menuOpen"
+        >
+          <span class="nav-menu-toggle__icon" aria-hidden="true"><i data-lucide="menu"></i></span>
+        </button>
+        <div id="nav-menu-drawer" class="nav-menu-drawer" hidden>
+          <button type="button" class="nav-menu-drawer__backdrop" data-i18n-aria-label="menuCloseBackdrop"></button>
+          <nav class="nav-menu-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="nav-menu-title">
+            <div class="nav-menu-drawer__head">
+              <h2 id="nav-menu-title" class="nav-menu-drawer__title" data-i18n="menuTitle">Nastavení</h2>
+              <button type="button" id="nav-menu-close" class="nav-menu-close" data-i18n-aria-label="menuClose">
+                <span class="nav-menu-close__icon" aria-hidden="true"><i data-lucide="x"></i></span>
+              </button>
+            </div>
+            <div class="nav-menu-drawer__body">
+              <section class="nav-menu-section" aria-labelledby="nav-lang-heading">
+                <h3 id="nav-lang-heading" class="nav-menu-section__label" data-i18n="language">Jazyk</h3>
+                <div class="nav-locale-row" role="group" aria-labelledby="nav-lang-heading">
+                  <button type="button" class="nav-locale-btn" data-locale="cs">Čeština</button>
+                  <button type="button" class="nav-locale-btn" data-locale="en">English</button>
+                </div>
+              </section>
+              <section class="nav-menu-section" aria-labelledby="nav-theme-heading">
+                <h3 id="nav-theme-heading" class="nav-menu-section__label" data-i18n="appearance">Vzhled</h3>
+                <button type="button" class="theme-toggle theme-toggle--nav" data-theme-toggle aria-pressed="false">
+                  <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"><i data-lucide="sun"></i></span>
+                  <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"><i data-lucide="moon"></i></span>
+                  <span class="theme-toggle--nav__text" data-theme-toggle-label></span>
+                </button>
+              </section>
+            </div>
+          </nav>
+        </div>
+        <div class="toolbar toolbar--desktop">
+          <div class="locale">
+            <span class="locale__icon" aria-hidden="true"><i data-lucide="languages"></i></span>
+            <div class="locale-dropdown">
+              <button
+                type="button"
+                id="locale-trigger"
+                class="locale-trigger"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="locale-menu"
+                data-i18n-aria-label="language"
+              >
+                <span id="locale-current" class="locale-trigger__label">Čeština</span>
+                <span class="locale-trigger__caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+              </button>
+              <ul id="locale-menu" class="locale-menu" role="listbox" hidden>
+                <li class="locale-menu__item" role="option" data-value="cs" tabindex="-1">Čeština</li>
+                <li class="locale-menu__item" role="option" data-value="en" tabindex="-1">English</li>
+              </ul>
+            </div>
           </div>
+          <button type="button" id="theme-toggle" class="theme-toggle" data-theme-toggle aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true"><i data-lucide="sun"></i></span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true"><i data-lucide="moon"></i></span>
+          </button>
         </div>
       </div>
     </header>

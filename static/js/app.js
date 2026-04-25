@@ -4,6 +4,7 @@
   }
 
   const STORAGE_KEY = "weather-gpt-locale";
+  const STORAGE_KEY_THEME = "weather-gpt-theme";
   const messagesEl = document.getElementById("messages");
   const form = document.getElementById("composer");
   const input = document.getElementById("input");
@@ -11,6 +12,12 @@
   const localeTrigger = document.getElementById("locale-trigger");
   const localeMenu = document.getElementById("locale-menu");
   const localeCurrent = document.getElementById("locale-current");
+  const navDrawer = document.getElementById("nav-menu-drawer");
+  const navToggle = document.getElementById("nav-menu-toggle");
+  const navClose = document.getElementById("nav-menu-close");
+  const navBackdrop = navDrawer?.querySelector(".nav-menu-drawer__backdrop");
+  const navLocaleBtns = () => document.querySelectorAll(".nav-locale-btn");
+  const themeToggleBtns = () => document.querySelectorAll("[data-theme-toggle]");
 
   let strings = {};
   const history = [];
@@ -18,6 +25,47 @@
   function getLocale() {
     const v = localStorage.getItem(STORAGE_KEY) || "cs";
     return v === "en" ? "en" : "cs";
+  }
+
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(STORAGE_KEY_THEME) === "light" ? "light" : "dark";
+    } catch {
+      return "dark";
+    }
+  }
+
+  function getTheme() {
+    return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+  }
+
+  function refreshThemeToggleA11y() {
+    const light = getTheme() === "light";
+    const labelKey = light ? "themeUseDark" : "themeUseLight";
+    const fallback = light ? "Switch to dark theme" : "Switch to light theme";
+    const ariaLabel = strings[labelKey] || fallback;
+    const stateKey = light ? "themeNavUseLight" : "themeNavUseDark";
+    const stateFallback = light ? "Light theme" : "Dark theme";
+    themeToggleBtns().forEach((btn) => {
+      btn.setAttribute("aria-pressed", light ? "true" : "false");
+      btn.setAttribute("aria-label", ariaLabel);
+      const labelSpan = btn.querySelector("[data-theme-toggle-label]");
+      if (labelSpan) {
+        labelSpan.textContent = strings[stateKey] || stateFallback;
+      }
+    });
+  }
+
+  function setTheme(theme) {
+    const t = theme === "light" ? "light" : "dark";
+    if (t === "light") document.documentElement.setAttribute("data-theme", "light");
+    else document.documentElement.removeAttribute("data-theme");
+    try {
+      localStorage.setItem(STORAGE_KEY_THEME, t);
+    } catch {
+      /* ignore */
+    }
+    refreshThemeToggleA11y();
   }
 
   function setLocale(loc) {
@@ -33,6 +81,37 @@
         el.setAttribute("aria-selected", v === normalized ? "true" : "false");
       });
     }
+    navLocaleBtns().forEach((btn) => {
+      const v = btn.getAttribute("data-locale") === "en" ? "en" : "cs";
+      btn.setAttribute("aria-pressed", v === normalized ? "true" : "false");
+    });
+  }
+
+  function onNavEscape(e) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeNavMenu();
+    }
+  }
+
+  function closeNavMenu() {
+    if (!navDrawer || !navToggle) return;
+    navDrawer.hidden = true;
+    navToggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("nav-menu-open");
+    document.removeEventListener("keydown", onNavEscape);
+    navToggle.focus();
+  }
+
+  function openNavMenu() {
+    if (!navDrawer || !navToggle) return;
+    closeLocaleMenu();
+    navDrawer.hidden = false;
+    navToggle.setAttribute("aria-expanded", "true");
+    document.body.classList.add("nav-menu-open");
+    document.addEventListener("keydown", onNavEscape);
+    lucideRefresh();
+    navClose?.focus();
   }
 
   function closeLocaleMenu() {
@@ -82,6 +161,7 @@
       if (strings[k]) el.setAttribute("aria-label", strings[k]);
     });
     document.title = strings.title || document.title;
+    refreshThemeToggleA11y();
   }
 
   function messageIconName(role, extraClass) {
@@ -129,6 +209,47 @@
   function autosize() {
     input.style.height = "auto";
     input.style.height = Math.min(input.scrollHeight, 160) + "px";
+  }
+
+  themeToggleBtns().forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setTheme(getTheme() === "light" ? "dark" : "light");
+      lucideRefresh();
+    });
+  });
+
+  navToggle?.addEventListener("click", () => {
+    if (!navDrawer) return;
+    if (navDrawer.hidden) openNavMenu();
+    else closeNavMenu();
+  });
+
+  navClose?.addEventListener("click", () => closeNavMenu());
+  navBackdrop?.addEventListener("click", () => closeNavMenu());
+
+  navLocaleBtns().forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const v = btn.getAttribute("data-locale") === "en" ? "en" : "cs";
+      const prev = getLocale();
+      if (v === prev) return;
+      setLocale(v);
+      try {
+        await loadI18n(v);
+      } catch {
+        /* ignore */
+      }
+      lucideRefresh();
+    });
+  });
+
+  const desktopNavMq = window.matchMedia("(min-width: 641px)");
+  function onDesktopNavMq(e) {
+    if (e.matches) closeNavMenu();
+  }
+  if (typeof desktopNavMq.addEventListener === "function") {
+    desktopNavMq.addEventListener("change", onDesktopNavMq);
+  } else {
+    desktopNavMq.addListener(onDesktopNavMq);
   }
 
   localeTrigger?.addEventListener("click", (e) => {
@@ -210,6 +331,9 @@
       input.focus();
     }
   });
+
+  setTheme(getStoredTheme());
+  refreshThemeToggleA11y();
 
   const initial = getLocale();
   setLocale(initial);

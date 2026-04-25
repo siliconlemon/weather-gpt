@@ -1,0 +1,30 @@
+[project]
+name = "weather-gpt"
+version = "0.1.0"
+description = "Flask weather chat with LangGraph and OpenWeatherMap tools."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.0,<4",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "langgraph>=0.2.40",
+    "langchain-core>=0.3",
+    "langchain-openai>=0.2",
+    "langchain-anthropic>=0.2",
+    "langchain>=1.2.15,<2",
+]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.24"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

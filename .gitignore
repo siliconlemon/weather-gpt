@@ -62,7 +62,3 @@ tmp/
 temp/
 *.tmp
 *.bak
-
-# FastMCP specific
-.fastmcp/
-mcp-inspector/

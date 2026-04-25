@@ -1,0 +1,29 @@
+:root {
+  --bg0: #0c0e12;
+  --bg1: #12161d;
+  --surface: rgba(24, 30, 40, 0.72);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #e8ecf2;
+  --muted: #8b95a8;
+  --accent: #5eb0ff;
+  --accent2: #7c5cff;
+  --danger: #f87171;
+  --radius: 14px;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --font: "DM Sans", system-ui, sans-serif;
+  --font-title: "Space Grotesk", system-ui, sans-serif;
+  --locale-trigger-width: 6.2rem;
+}
+
+[data-theme="light"] {
+  --bg0: #eef1f7;
+  --bg1: #e2e7f0;
+  --surface: rgba(255, 255, 255, 0.78);
+  --border: rgba(0, 0, 0, 0.1);
+  --text: #12161f;
+  --muted: #5a6474;
+  --accent: #1d6fd8;
+  --accent2: #5746d4;
+  --danger: #c92222;
+  --shadow: 0 16px 44px rgba(15, 23, 42, 0.1);
+}

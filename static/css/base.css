@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-body {
+  min-height: 100%;
+  font-family: var(--font);
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(94, 176, 255, 0.12), transparent),
+    radial-gradient(900px 500px at 90% 0%, rgba(124, 92, 255, 0.1), transparent), var(--bg0);
+}
+
+.app-body--bg .backdrop {
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.22;
+}
+
+body.nav-menu-open {
+  overflow: hidden;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  filter: saturate(1.1);
+}

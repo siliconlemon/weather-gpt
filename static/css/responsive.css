@@ -1,0 +1,62 @@
+/* Wide + tall (e.g. laptop fullscreen): cap chat height; equal top/bottom breathing room */
+@media (min-width: 768px) and (min-height: 720px) {
+  .shell::before,
+  .shell::after {
+    content: "";
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .top {
+    flex-shrink: 0;
+  }
+
+  .chat {
+    flex: 0 1 auto;
+    height: calc(100dvh - 11rem);
+    max-height: calc(100dvh - 11rem);
+    min-height: 0;
+  }
+}
+
+/* Phone-width: edge-to-edge shell; chat panel flush to edges (square outer corners only) */
+@media (max-width: 540px) {
+  .shell {
+    max-width: none;
+    margin: 0;
+    min-height: 100dvh;
+    padding: 0;
+    gap: 0;
+  }
+
+  .top {
+    padding: 0.875rem max(1rem, env(safe-area-inset-right)) 0.875rem
+      max(1rem, env(safe-area-inset-left));
+    padding-top: max(0.875rem, env(safe-area-inset-top));
+  }
+
+  .chat {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: none;
+    flex: 1;
+  }
+
+  .messages {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .composer {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .suggestions {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+}

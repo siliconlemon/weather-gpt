@@ -1,0 +1,99 @@
+[data-theme="light"] .app-body {
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(29, 111, 216, 0.1), transparent),
+    radial-gradient(900px 500px at 90% 0%, rgba(87, 70, 212, 0.08), transparent), var(--bg0);
+}
+
+[data-theme="light"] .app-body--bg .backdrop {
+  opacity: 0.28;
+}
+
+[data-theme="light"] .msg-user .msg-bubble {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .msg-assistant .msg-bubble {
+  background: rgba(29, 111, 216, 0.12);
+  border-color: rgba(29, 111, 216, 0.22);
+}
+
+[data-theme="light"] .msg-error .msg-bubble {
+  color: #7f1d1d;
+  border-color: rgba(201, 34, 34, 0.35);
+  background: rgba(201, 34, 34, 0.08);
+}
+
+[data-theme="light"] .msg-assistant .msg-icon {
+  color: rgba(29, 111, 216, 0.85);
+}
+
+[data-theme="light"] .composer {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .composer textarea {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .suggestion-chip {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+}
+
+[data-theme="light"] .suggestion-chip:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(29, 111, 216, 0.28);
+  box-shadow: none;
+}
+
+[data-theme="light"] .suggestion-chip:focus-visible {
+  box-shadow: 0 0 0 3px rgba(29, 111, 216, 0.18);
+}
+
+[data-theme="light"] .chat-clear {
+  color: rgba(22, 72, 150, 0.92);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(29, 111, 216, 0.28);
+}
+
+[data-theme="light"] .chat-clear:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .chat-clear:focus-visible {
+  outline: 2px solid rgba(29, 111, 216, 0.4);
+  outline-offset: 2px;
+}
+
+[data-theme="light"] .locale-menu__item:hover,
+[data-theme="light"] .locale-menu__item:focus-visible {
+  background: rgba(29, 111, 216, 0.08);
+}
+
+[data-theme="light"] .locale-menu__item[aria-selected="true"] {
+  background: rgba(29, 111, 216, 0.12);
+}
+
+[data-theme="light"] .locale-trigger:focus-visible,
+[data-theme="light"] .theme-toggle:focus-visible,
+[data-theme="light"] .nav-menu-toggle:focus-visible,
+[data-theme="light"] .nav-locale-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(29, 111, 216, 0.2);
+}
+
+[data-theme="light"] .composer textarea:focus-visible {
+  box-shadow: 0 0 0 3px rgba(29, 111, 216, 0.18);
+}
+
+[data-theme="light"] .nav-menu-drawer__backdrop {
+  background: rgba(15, 23, 42, 0.35);
+}
+
+[data-theme="light"] .nav-menu-drawer__panel {
+  box-shadow: -12px 0 36px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .nav-locale-btn[aria-pressed="true"] {
+  border-color: rgba(29, 111, 216, 0.4);
+  background: rgba(29, 111, 216, 0.12);
+}

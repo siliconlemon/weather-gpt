@@ -30,8 +30,8 @@ async def test_run_stub_reply_en() -> None:
     text = await run_weather_chat(
         llm, tools, [{"role": "user", "content": "Hello"}], locale="en"
     )
-    assert "Stub mode" in text
-    assert "LLM_PROVIDER" in text
+    assert "API key" in text
+    assert "provider" in text
 
 
 @pytest.mark.asyncio
@@ -46,8 +46,8 @@ async def test_run_stub_reply_cs() -> None:
     text = await run_weather_chat(
         llm, tools, [{"role": "user", "content": "Ahoj"}], locale="cs"
     )
-    assert "ukázkový" in text
-    assert "LLM_PROVIDER" in text
+    assert "LLM" in text
+    assert "klíč" in text
 
 
 @pytest.mark.asyncio

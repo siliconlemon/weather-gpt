@@ -36,3 +36,9 @@ def test_anthropic_requires_key() -> None:
     """Raises ValueError when Anthropic is selected but the API key is missing."""
     with pytest.raises(ValueError, match="ANTHROPIC_API_KEY"):
         build_chat_model(make_settings(llm_provider="anthropic", anthropic_api_key=None))
+
+
+def test_gemini_requires_key() -> None:
+    """Raises ValueError when Gemini is selected but the API key is missing."""
+    with pytest.raises(ValueError, match="GEMINI_API_KEY"):
+        build_chat_model(make_settings(llm_provider="gemini", gemini_api_key=None))

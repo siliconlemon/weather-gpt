@@ -25,7 +25,7 @@ def make_settings(**overrides: object) -> Settings:
         opencode_zen_api_key=None,
         opencode_zen_model="glm-4.7-free",
         opencode_zen_base_url="https://opencode.ai/zen/v1",
-        ui_background_url=None,
+        gemini_api_key=None,
         flask_secret_key="test-secret",
     )
     return dataclasses.replace(s, **overrides)  # type: ignore[arg-type]

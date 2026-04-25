@@ -7,7 +7,7 @@ Flask web app with a dark chat UI (Czech default, English optional), LangGraph R
 - Python 3.12+
 - [uv](https://docs.astral.sh/uv/)
 - OpenWeatherMap API key for live weather
-- An LLM key when not using `LLM_PROVIDER=stub`
+- An LLM key when not using `LLM_PROVIDER=stub` (OpenAI, Anthropic, OpenCode Zen, or Gemini via `GEMINI_API_KEY` with `LLM_PROVIDER=gemini`)
 
 ## Local setup
 

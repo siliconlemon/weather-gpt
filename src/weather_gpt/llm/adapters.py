@@ -14,6 +14,7 @@ from langchain_core.runnables import Runnable
 from langchain_core.tools import BaseTool
 from langchain_core.utils.function_calling import convert_to_openai_tool
 from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 
 from weather_gpt.chat_locale import get_chat_locale
@@ -24,12 +25,10 @@ def stub_placeholder_text() -> str:
     """Returns the stub LLM copy for the current chat locale."""
     if get_chat_locale() == "en":
         return (
-            "Stub mode—no live LLM is configured. You can still ask about the weather; "
-            "set LLM_PROVIDER and the matching API keys in your environment for full replies."
+            "To connect to the LLM, you need to provide the API key of the provider."
         )
     return (
-        "Jsem ukázkový režim bez LLM. Na počasí se můžeš ptát i tak; "
-        "pro plné odpovědi nastav LLM_PROVIDER a odpovídající API klíče v prostředí."
+        "Pro spojení s LLM je potřeba poskytnou klíč poskytovatele."
     )
 
 
@@ -113,5 +112,12 @@ def build_chat_model(settings: Settings) -> BaseChatModel:
             raise ValueError("ANTHROPIC_API_KEY is required when LLM_PROVIDER=anthropic")
         model = settings.llm_model or "claude-3-5-haiku-20241022"
         return ChatAnthropic(model=model, api_key=key, temperature=0.2)
+
+    if provider == "gemini":
+        key = settings.gemini_api_key
+        if not key:
+            raise ValueError("GEMINI_API_KEY is required when LLM_PROVIDER=gemini")
+        model = settings.llm_model or "gemini-2.5-flash"
+        return ChatGoogleGenerativeAI(model=model, api_key=key, temperature=0.2)
 
     raise ValueError(f"Unknown LLM_PROVIDER: {provider!r}")

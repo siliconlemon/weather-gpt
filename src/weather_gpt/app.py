@@ -8,8 +8,9 @@ from pathlib import Path
 from typing import Any
 
 import httpx
-from flask import Flask, jsonify, render_template, request, url_for
+from flask import Flask, jsonify, render_template, request
 
+from weather_gpt.chat_loop import run_chat_coroutine
 from weather_gpt.config import Settings
 from weather_gpt.graph.chat import run_weather_chat
 from weather_gpt.llm.adapters import build_chat_model
@@ -61,7 +62,6 @@ def create_app(settings: Settings | None = None) -> Flask:
     )
     app.secret_key = s.flask_secret_key
     app.config["SETTINGS"] = s
-    app.config["UI_BACKGROUND_URL"] = s.ui_background_url or ""
 
     client = httpx.AsyncClient(
         timeout=30.0,
@@ -87,10 +87,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/")
     def index() -> str:
         """Serves the single-page chat UI."""
-        bg = (s.ui_background_url or "").strip()
-        if not bg:
-            bg = url_for("static", filename="images/site-bg.jpg")
-        return render_template("index.html", ui_background_url=bg)
+        return render_template("index.html")
 
     @app.get("/api/health")
     def health() -> Any:
@@ -127,7 +124,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             loc = req_loc.lower()
 
         try:
-            reply = asyncio.run(run_weather_chat(llm, tools, messages, loc))
+            reply = run_chat_coroutine(run_weather_chat(llm, tools, messages, loc))
         except Exception:
             app.logger.exception("chat failed")
             return jsonify({"error": _msg("chat_failed", loc)}), 500

@@ -46,7 +46,7 @@ class Settings:
     opencode_zen_api_key: str | None
     opencode_zen_model: str
     opencode_zen_base_url: str
-    ui_background_url: str | None
+    gemini_api_key: str | None
     flask_secret_key: str
 
     @staticmethod
@@ -69,6 +69,6 @@ class Settings:
             opencode_zen_model=_env("OPENCODE_ZEN_MODEL", "glm-4.7-free") or "glm-4.7-free",
             opencode_zen_base_url=_env("OPENCODE_ZEN_BASE_URL", "https://opencode.ai/zen/v1")
             or "https://opencode.ai/zen/v1",
-            ui_background_url=_env("UI_BACKGROUND_URL"),
+            gemini_api_key=_env("GEMINI_API_KEY"),
             flask_secret_key=_env("FLASK_SECRET_KEY", "dev") or "dev",
         )

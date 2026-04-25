@@ -20,7 +20,7 @@
   </script>
   <style>
     .app-body--bg {
-      --bg-image: url({{ ui_background_url | tojson }});
+      --bg-image: url({{ url_for('static', filename='images/site-bg.jpg') | tojson }});
     }
   </style>
 </head>

@@ -27,6 +27,9 @@ def make_settings(**overrides: object) -> Settings:
         opencode_zen_base_url="https://opencode.ai/zen/v1",
         gemini_api_key=None,
         flask_secret_key="test-secret",
+        llm_timeout_seconds=25.0,
+        llm_max_retries=0,
+        chat_agent_timeout_seconds=120.0,
     )
     return dataclasses.replace(s, **overrides)  # type: ignore[arg-type]
 
@@ -34,6 +37,7 @@ def make_settings(**overrides: object) -> Settings:
 @pytest.fixture
 def client(monkeypatch: pytest.MonkeyPatch):
     """Flask test client with stub LLM and a fake OpenWeather key."""
+    monkeypatch.setenv("LOG_TO_FILE", "false")
     monkeypatch.setenv("LLM_PROVIDER", "stub")
     monkeypatch.setenv("API_KEY", "test-api-key")
     monkeypatch.delenv("OPENCODE_ZEN_API_KEY", raising=False)

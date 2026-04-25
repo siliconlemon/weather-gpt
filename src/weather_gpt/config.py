@@ -27,6 +27,16 @@ def _env_int(name: str, default: int) -> int:
         return default
 
 
+def _env_float(name: str, default: float) -> float:
+    raw = _env(name)
+    if raw is None:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        return default
+
+
 @dataclass(frozen=True)
 class Settings:
     """Application configuration loaded once at startup."""
@@ -48,6 +58,9 @@ class Settings:
     opencode_zen_base_url: str
     gemini_api_key: str | None
     flask_secret_key: str
+    llm_timeout_seconds: float
+    llm_max_retries: int
+    chat_agent_timeout_seconds: float
 
     @staticmethod
     def from_env() -> Settings:
@@ -71,4 +84,7 @@ class Settings:
             or "https://opencode.ai/zen/v1",
             gemini_api_key=_env("GEMINI_API_KEY"),
             flask_secret_key=_env("FLASK_SECRET_KEY", "dev") or "dev",
+            llm_timeout_seconds=max(5.0, _env_float("LLM_TIMEOUT", 25.0)),
+            llm_max_retries=max(0, _env_int("LLM_MAX_RETRIES", 0)),
+            chat_agent_timeout_seconds=max(15.0, _env_float("CHAT_AGENT_TIMEOUT", 120.0)),
         )

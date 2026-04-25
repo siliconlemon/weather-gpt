@@ -81,6 +81,8 @@ class StubChatModel(BaseChatModel):
 def build_chat_model(settings: Settings) -> BaseChatModel:
     """Instantiates the chat model for the configured LLM_PROVIDER."""
     provider = settings.llm_provider
+    t = settings.llm_timeout_seconds
+    retries = settings.llm_max_retries
     if provider == "stub":
         return StubChatModel()
 
@@ -94,6 +96,8 @@ def build_chat_model(settings: Settings) -> BaseChatModel:
             api_key=key,
             base_url=settings.opencode_zen_base_url,
             temperature=0.2,
+            timeout=t,
+            max_retries=retries,
         )
 
     if provider == "openai":
@@ -101,7 +105,13 @@ def build_chat_model(settings: Settings) -> BaseChatModel:
         if not key:
             raise ValueError("OPENAI_API_KEY is required when LLM_PROVIDER=openai")
         model = settings.llm_model or "gpt-4o-mini"
-        kwargs: dict = {"model": model, "api_key": key, "temperature": 0.2}
+        kwargs: dict = {
+            "model": model,
+            "api_key": key,
+            "temperature": 0.2,
+            "timeout": t,
+            "max_retries": retries,
+        }
         if settings.openai_base_url:
             kwargs["base_url"] = settings.openai_base_url
         return ChatOpenAI(**kwargs)
@@ -111,13 +121,24 @@ def build_chat_model(settings: Settings) -> BaseChatModel:
         if not key:
             raise ValueError("ANTHROPIC_API_KEY is required when LLM_PROVIDER=anthropic")
         model = settings.llm_model or "claude-3-5-haiku-20241022"
-        return ChatAnthropic(model=model, api_key=key, temperature=0.2)
+        return ChatAnthropic(
+            model=model,
+            api_key=key,
+            temperature=0.2,
+            timeout=t,
+            max_retries=retries,
+        )
 
     if provider == "gemini":
         key = settings.gemini_api_key
         if not key:
             raise ValueError("GEMINI_API_KEY is required when LLM_PROVIDER=gemini")
         model = settings.llm_model or "gemini-2.5-flash"
-        return ChatGoogleGenerativeAI(model=model, api_key=key, temperature=0.2)
+        return ChatGoogleGenerativeAI(
+            model=model,
+            api_key=key,
+            temperature=0.2,
+            timeout=t,
+        )
 
     raise ValueError(f"Unknown LLM_PROVIDER: {provider!r}")

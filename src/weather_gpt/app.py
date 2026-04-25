@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import atexit
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,7 @@ from flask import Flask, jsonify, render_template, request
 
 from weather_gpt.chat_loop import run_chat_coroutine
 from weather_gpt.config import Settings
+from weather_gpt.logging_setup import configure_file_logging, flush_logging_handlers
 from weather_gpt.graph.chat import run_weather_chat
 from weather_gpt.llm.adapters import build_chat_model
 from weather_gpt.weather.cache import SimpleCache
@@ -52,6 +54,7 @@ def _msg(key: str, loc: str) -> str:
 
 def create_app(settings: Settings | None = None) -> Flask:
     """Creates the Flask app with shared HTTP client, weather service, and LangGraph agent."""
+    configure_file_logging()
     s = settings or Settings.from_env()
     repo_root = Path(__file__).resolve().parent.parent.parent
     app = Flask(
@@ -62,6 +65,13 @@ def create_app(settings: Settings | None = None) -> Flask:
     )
     app.secret_key = s.flask_secret_key
     app.config["SETTINGS"] = s
+
+    @app.after_request
+    def _flush_file_logs(response: Any) -> Any:
+        """Ensure file logs are visible immediately (debug reloader / editor buffers)."""
+        if request.path == "/api/chat":
+            flush_logging_handlers()
+        return response
 
     client = httpx.AsyncClient(
         timeout=30.0,
@@ -124,11 +134,21 @@ def create_app(settings: Settings | None = None) -> Flask:
             loc = req_loc.lower()
 
         try:
-            reply = run_chat_coroutine(run_weather_chat(llm, tools, messages, loc))
+            reply = run_chat_coroutine(
+                run_weather_chat(llm, tools, messages, loc),
+                timeout=s.chat_agent_timeout_seconds,
+            )
         except Exception:
-            app.logger.exception("chat failed")
+            logging.getLogger("weather_gpt.chat").exception("chat failed")
+            flush_logging_handlers()
             return jsonify({"error": _msg("chat_failed", loc)}), 500
 
+        logging.getLogger("weather_gpt.chat").info(
+            "POST /api/chat ok locale=%s messages=%d",
+            loc,
+            len(messages),
+        )
+        flush_logging_handlers()
         return jsonify({"reply": reply, "locale": loc})
 
     return app

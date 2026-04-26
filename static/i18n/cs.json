@@ -1,4 +1,8 @@
 {
+  "metaDescription": "Weather GPT: chat o počasí, předpovědi a kvalitě vzduchu. Zeptejte se přirozeným jazykem na východ slunce, déšť, UV index a další.",
+  "skipToContent": "Přeskočit na obsah",
+  "composerLabel": "Zpráva pro asistenta",
+  "chatRegion": "Konverzace — chat o počasí",
   "title": "Weather GPT | Zeptejte se na počasí, předpověď nebo kvalitu vzduchu",
   "heading": "Weather GPT",
   "tagline": "Zeptejte se na počasí, předpověď nebo kvalitu vzduchu",

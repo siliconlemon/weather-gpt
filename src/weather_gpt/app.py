@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import atexit
 import logging
 from pathlib import Path
@@ -97,7 +98,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/")
     def index() -> str:
         """Serves the single-page chat UI."""
-        return render_template("index.html")
+        env_base = (os.getenv("PUBLIC_SITE_URL") or "").strip().rstrip("/")
+        site_url = env_base or request.url_root.rstrip("/")
+        return render_template("index.html", site_url=site_url)
 
     @app.get("/api/health")
     def health() -> Any:

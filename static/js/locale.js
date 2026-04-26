@@ -99,6 +99,21 @@
       if (strings[k]) el.setAttribute("title", strings[k]);
     });
     global.document.title = strings.title || global.document.title;
+    const desc = strings.metaDescription;
+    if (desc) {
+      global.document.querySelector('meta[name="description"]')?.setAttribute("content", desc);
+      global.document
+        .querySelector('meta[property="og:description"]')
+        ?.setAttribute("content", desc);
+      global.document
+        .querySelector('meta[name="twitter:description"]')
+        ?.setAttribute("content", desc);
+    }
+    const t = strings.title;
+    if (t) {
+      global.document.querySelector('meta[property="og:title"]')?.setAttribute("content", t);
+      global.document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", t);
+    }
     global.weatherGptTheme?.refreshThemeToggleA11y?.();
     global.weatherGptChat?.syncSuggestionsStrip?.();
   }

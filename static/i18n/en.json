@@ -1,4 +1,8 @@
 {
+  "metaDescription": "Weather GPT: chat about weather, forecasts, and air quality. Ask in plain language about sunrise, rain, UV index, and more.",
+  "skipToContent": "Skip to main content",
+  "composerLabel": "Message to the assistant",
+  "chatRegion": "Conversation — weather chat",
   "title": "Weather GPT | Ask about weather, forecasts, or air quality",
   "heading": "Weather GPT",
   "tagline": "Ask about weather, forecasts, or air quality",

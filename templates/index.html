@@ -4,6 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title data-i18n="title">Počasí — chat</title>
+  <meta
+    name="description"
+    content="Weather GPT: chat o počasí, předpovědi a kvalitě vzduchu. Zeptejte se přirozeným jazykem na východ slunce, déšť, UV index a další."
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0c0e12" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#eef1f7" media="(prefers-color-scheme: light)" />
+  <link rel="canonical" href="{{ site_url }}{{ request.path }}" />
+  <link rel="alternate" hreflang="cs" href="{{ site_url }}{{ request.path }}" />
+  <link rel="alternate" hreflang="en" href="{{ site_url }}{{ request.path }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ site_url }}{{ request.path }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Weather GPT" />
+  <meta property="og:locale" content="cs_CZ" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:url" content="{{ site_url }}{{ request.path }}" />
+  <meta property="og:title" content="Weather GPT | Zeptejte se na počasí, předpověď nebo kvalitu vzduchu" />
+  <meta
+    property="og:description"
+    content="Weather GPT: chat o počasí, předpovědi a kvalitě vzduchu. Zeptejte se přirozeným jazykem na východ slunce, déšť, UV index a další."
+  />
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='images/thumbnail.png') }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Weather GPT | Zeptejte se na počasí, předpověď nebo kvalitu vzduchu" />
+  <meta
+    name="twitter:description"
+    content="Weather GPT: chat o počasí, předpovědi a kvalitě vzduchu. Zeptejte se přirozeným jazykem na východ slunce, déšť, UV index a další."
+  />
+  <meta name="twitter:image" content="{{ site_url }}{{ url_for('static', filename='images/thumbnail.png') }}" />
+  <script type="application/ld+json">
+    {{ {"@context": "https://schema.org", "@type": "WebSite", "name": "Weather GPT", "url": site_url ~ "/", "description": "Konverzační rozhraní pro počasí, předpověď a kvalitu vzduchu."} | tojson }}
+  </script>
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}" />
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="any" />
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
@@ -33,8 +65,9 @@
   </style>
 </head>
 <body class="app-body app-body--bg">
+  <a class="skip-link" href="#main-content" data-i18n="skipToContent">Přeskočit na obsah</a>
   <div class="backdrop"></div>
-  <main class="shell">
+  <main id="main-content" class="shell" tabindex="-1">
     <header class="top">
       <div class="brand">
         <span class="logo-wrap" aria-hidden="true">
@@ -121,7 +154,11 @@
         </div>
       </div>
     </header>
-    <section class="chat" aria-label="Chat">
+    <section
+      class="chat"
+      data-i18n-aria-label="chatRegion"
+      aria-label="Konverzace — chat o počasí"
+    >
       <div class="chat__viewport">
         <button
           type="button"
@@ -146,7 +183,15 @@
         hidden
       ></div>
       <form id="composer" class="composer" autocomplete="off" novalidate>
-        <textarea id="input" rows="1" data-i18n-placeholder="placeholder" placeholder="Napiš zprávu…"></textarea>
+        <label for="input" class="visually-hidden" data-i18n="composerLabel">Zpráva pro asistenta</label>
+        <textarea
+          id="input"
+          rows="1"
+          data-i18n-placeholder="placeholder"
+          placeholder="Napiš zprávu…"
+          autocomplete="off"
+          enterkeyhint="send"
+        ></textarea>
         <button type="submit" id="send" class="send" data-i18n-aria-label="send">
           <i data-lucide="send" aria-hidden="true"></i>
         </button>

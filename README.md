@@ -2,7 +2,7 @@
 
 ![thumbnail](static/images/thumbnail.png)
 
-A single page Flask web app, connecting a chatbot with the OpenWeatherMap API with MCP and the LangGraph ReAct agent. Packaged with [uv](https://docs.astral.sh/uv/) and runnable via Docker Compose as a single service.
+A single-page Flask app, connecting a chatbot with the OpenWeatherMap API with MCP and the LangGraph ReAct agent. Packaged with [uv](https://docs.astral.sh/uv/) and runnable via Docker Compose as a single service.
 
 ## Requirements
 

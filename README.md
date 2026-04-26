@@ -1,6 +1,8 @@
 # weather-gpt
 
-Flask web app with a dark chat UI (Czech default, English optional), LangGraph ReAct agent, and OpenWeatherMap tools. Packaged with [uv](https://docs.astral.sh/uv/) and runnable via Docker Compose as a single service.
+![thumbnail](static/images/thumbnail.png)
+
+A single page Flask web app, connecting a chatbot with the OpenWeatherMap API with MCP and the LangGraph ReAct agent. Packaged with [uv](https://docs.astral.sh/uv/) and runnable via Docker Compose as a single service.
 
 ## Requirements
 

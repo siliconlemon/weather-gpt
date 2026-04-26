@@ -5,7 +5,9 @@ import pytest
 from langchain_core.tools import tool
 
 from tests.conftest import make_settings
-from weather_gpt.graph.chat import run_weather_chat
+from langchain_core.messages import AIMessage
+
+from weather_gpt.graph.chat import _last_ai_text, run_weather_chat
 from weather_gpt.llm.adapters import build_chat_model
 from weather_gpt.weather.cache import SimpleCache
 from weather_gpt.weather.service import WeatherService
@@ -48,6 +50,29 @@ async def test_run_stub_reply_cs() -> None:
     )
     assert "LLM" in text
     assert "klíč" in text
+
+
+def test_last_ai_text_gemini_thinking_block() -> None:
+    """Google GenAI may emit user-visible text only in thinking/reasoning blocks."""
+    msgs = [
+        AIMessage(
+            content=[{"type": "thinking", "thinking": "Prague is about 18°C today."}]
+        )
+    ]
+    assert _last_ai_text(msgs) == "Prague is about 18°C today."
+
+
+def test_last_ai_text_prefers_plain_text_blocks() -> None:
+    """When both text and thinking blocks exist, public text wins."""
+    msgs = [
+        AIMessage(
+            content=[
+                {"type": "thinking", "thinking": "internal"},
+                {"type": "text", "text": "Hello"},
+            ]
+        )
+    ]
+    assert _last_ai_text(msgs) == "Hello"
 
 
 @pytest.mark.asyncio

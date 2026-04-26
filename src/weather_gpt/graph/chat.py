@@ -48,13 +48,27 @@ def _last_ai_text(messages: Sequence[BaseMessage]) -> str:
             if isinstance(c, str):
                 return c
             if isinstance(c, list):
-                parts = []
+                text_parts: list[str] = []
+                fallback_parts: list[str] = []
                 for block in c:
-                    if isinstance(block, dict) and block.get("type") == "text":
-                        parts.append(block.get("text", ""))
-                    elif isinstance(block, str):
-                        parts.append(block)
-                return "".join(parts)
+                    if isinstance(block, str):
+                        text_parts.append(block)
+                        continue
+                    if not isinstance(block, dict):
+                        continue
+                    btype = block.get("type")
+                    if btype == "text":
+                        text_parts.append(str(block.get("text", "")))
+                    elif btype == "thinking":
+                        # Gemini / ChatGoogleGenerativeAI can return the visible answer
+                        # only in thinking blocks; ignoring them yields an empty API reply.
+                        fallback_parts.append(str(block.get("thinking", "")))
+                    elif btype == "reasoning":
+                        fallback_parts.append(str(block.get("reasoning", "")))
+                joined = "".join(text_parts)
+                if joined.strip():
+                    return joined
+                return "".join(fallback_parts)
     return ""
 
 

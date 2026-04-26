@@ -16,6 +16,18 @@
   border-color: rgba(29, 111, 216, 0.22);
 }
 
+[data-theme="light"] .msg-bubble--md code {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .msg-bubble--md pre {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .msg-bubble--md a {
+  color: rgba(29, 111, 216, 0.95);
+}
+
 [data-theme="light"] .msg-error .msg-bubble {
   color: #7f1d1d;
   border-color: rgba(201, 34, 34, 0.35);
